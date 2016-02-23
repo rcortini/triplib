@@ -12,7 +12,7 @@ def do_the_search (i0, nsteps, P) :
     Perform a search of nsteps on the system described by the transition
     matrix P, with a starting point given by i0.
     """
-    nsites = len (sites)
+    nsites = P.shape [0]
     visits = np.zeros (nsites).astype (int)
     # init
     i = i0
