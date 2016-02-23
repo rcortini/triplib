@@ -5,20 +5,7 @@ def jump_to (p):
     Select a site according to the probability vector p
     """
     value = np.random.random ()
-    notFound = True
-    i = 0
-    while p[i] == 0. :
-        i += 1
-    d = value-p [i]
-    if d<0 :
-        return i
-    while notFound :
-        i += 1
-        d_old = d
-        d = value-p[i]
-        if d * d_old < 0. or p[i]==1. :
-            notFound = False
-    return i
+    return np.argmax (value-p<0.)
 
 def do_the_search (i0, nsteps, P) :
     """
