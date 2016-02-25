@@ -27,3 +27,10 @@ def gene_expression_probability_matrix (nsites, genes, pfunc,
 # the firing function default: fire if gene present
 def always_fire (gene) :
     return 1.
+
+# fire if gene is active
+def fire_if_active (gene) :
+    if gene ['expr'] != 0. :
+        return 1.
+    else :
+        return 0.
