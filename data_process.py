@@ -23,3 +23,13 @@ def fill_p_with_ps (P,i,alpha) :
 def row_normalize_matrix (M) :
     n = np.sum (M,axis=0)
     return (M/n).T
+
+def P_hop_plus_gene (P_hop, P_gene, p_firing) :
+    N = P_hop.shape[0]
+    P = np.zeros ([N,N])
+    for i in range (N) :
+        n = np.sum (P_gene [i,:])
+        if n!=0. :
+            P [i,:] = p_firing*P_gene[i,:]/n + (1.-p_firing)*P_hop[i,:]
+        else :
+            P [i,:] = P_hop [i,:]
