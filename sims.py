@@ -37,7 +37,7 @@ def get_equilibrium_distribution (P,
         # select the index of the largest eigenvalue
         imax = hw.argmax ()
         # select the eigenvector corresponding to the largest eigenvalue
-        population = hv [:,imax]
+        population = hv [:,imax].real
     else :
         nsites = P.shape[0]
         i0 = np.random.randint (0,nsites,ntrials)
