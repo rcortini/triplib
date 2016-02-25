@@ -7,7 +7,7 @@ def ps (s,alpha) :
     if s==0. :
         return 0.
     else :
-        return np.pow (s,-alpha)
+        return np.power (s,-alpha)
 
 def fill_p_with_ps (P,i,alpha) :
     """
@@ -19,3 +19,7 @@ def fill_p_with_ps (P,i,alpha) :
         s = abs(i-k)
         P[i,k] = ps(s,alpha)
         P[k,i] = ps(s,alpha)
+
+def row_normalize_matrix (M) :
+    n = np.sum (M,axis=0)
+    return (M/n).T
