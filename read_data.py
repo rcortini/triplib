@@ -5,16 +5,20 @@ import os
 datadir = os.getenv ("HOME") + "/work/data/"
 hic_file = datadir + "chr2L.mtx"
 hic_file_normalized = datadir + "chr2L_normalized.mtx"
+hic_file_filled = datadir + "chr2L_filled.mtx"
 gene_file = datadir + "Kc_exp_color.bed"
 colors_file = datadir + "colors.bed"
 reporter_file = datadir + "allprom.txt"
 
 # load hi-c data
-def load_hic (normalized=True) :
-    if normalized :
-        return np.loadtxt (hic_file_normalized)
+def load_hic (normalized=False, filled=True) :
+    if filled :
+        return np.loadtxt (hic_file_filled)
     else :
-        return np.loadtxt (hic_file)
+        if normalized :
+            return np.loadtxt (hic_file_normalized)
+        else :
+            return np.loadtxt (hic_file)
 
 
 # load the gene data
