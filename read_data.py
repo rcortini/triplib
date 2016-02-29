@@ -3,7 +3,6 @@ import os
 
 # module-wide variables
 datadir = os.getenv ("HOME") + "/work/data/"
-hic_file = datadir + "chr2L.mtx"
 hic_file_normalized = datadir + "chr2L_normalized.mtx"
 hic_file_filled = datadir + "chr2L_filled.mtx"
 gene_file = datadir + "Kc_exp_color.bed"
@@ -11,14 +10,15 @@ colors_file = datadir + "colors.bed"
 reporter_file = datadir + "allprom.txt"
 
 # load hi-c data
-def load_hic (normalized=False, filled=True) :
+def load_hic (chromosome, normalized=False, filled=True) :
+    hic_file = datadir + "chr" + chromosome
     if filled :
-        return np.loadtxt (hic_file_filled)
+        return np.loadtxt (hic_file + "_filled.mtx")
     else :
         if normalized :
-            return np.loadtxt (hic_file_normalized)
+            return np.loadtxt (hic_file + "_normalized.mtx")
         else :
-            return np.loadtxt (hic_file)
+            return np.loadtxt (hic_file + ".mtx")
 
 
 # load the gene data
