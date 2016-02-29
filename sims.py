@@ -50,6 +50,31 @@ def get_equilibrium_distribution (P,
     mean = np.mean (population)
     return population/mean
 
+def get_life_and_death (P, P_gene, tau, where='prom', nsteps=100000, ntrials=10, hic_res=2000) :
+    """
+    Get the population of the graph if including the following hypothesis: the
+    particles may start only at the promoters, terminators, or both.
+    """
+    nsites = P.shape[0]
+    # select starting sites depending on the "where" parameters, passed to the
+    # function
+    promoters, terminators = np.where (P_gene)
+    if where=='prom' :
+        i0 = np.random.choice (promoters,size=ntrials)
+    elif where=='term' :
+        i0 = np.random.choice (terminators,size=ntrials)
+    elif where=='both' :
+        i0 = np.random.choice (np.concatenate((promoters,terminators)),size=ntrials)
+    # calculate the cumulative sum probability matrix
+    Pn = np.cumsum (P,axis=1)
+    visits = np.zeros (nsites)
+    for i in range (ntrials) :
+        t = int (np.random.exponential (tau))+1
+        visits += do_the_search (i0[i],t,Pn)
+    # get the population from average visits
+    mean = np.mean (visits)
+    return visits/mean
+
 def model_r2 (population, expr_binned) :
     """
     Returns the R2 of the population, compared with the binned reporter
