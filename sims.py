@@ -50,7 +50,7 @@ def get_equilibrium_distribution (P,
     mean = np.mean (population)
     return population/mean
 
-def get_life_and_death (P, P_gene, tau, where='prom', nsteps=100000, ntrials=10, hic_res=2000) :
+def get_life_and_death (P, P_gene, tau, where='prom', ntrials=10, hic_res=2000) :
     """
     Get the population of the graph if including the following hypothesis: the
     particles may start only at the promoters, terminators, or both.
