@@ -1,7 +1,8 @@
 import numpy as np
+import os
 
 # module-wide variables
-datadir = "/home/rcortini/work/data/"
+datadir = os.getenv ("HOME") + "/work/data/"
 hic_file = datadir + "chr2L.mtx"
 hic_file_normalized = datadir + "chr2L_normalized.mtx"
 gene_file = datadir + "Kc_exp_color.bed"
