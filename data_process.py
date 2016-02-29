@@ -33,3 +33,4 @@ def P_hop_plus_gene (P_hop, P_gene, p_firing) :
             P [i,:] = p_firing*P_gene[i,:]/n + (1.-p_firing)*P_hop[i,:]
         else :
             P [i,:] = P_hop [i,:]
+    return P
