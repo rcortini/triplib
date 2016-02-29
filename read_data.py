@@ -37,7 +37,7 @@ def load_reporters () :
                 continue
             break
     keys = line.strip ('\n').split ()
-    types = ['S30','S2','S2','i12','f','S4','i2']
+    types = ['S30','S2','S2','i8','f','S4','i2']
     for i in range (len (types), len (keys)) :
         types.append ('f')
     reporter_dtype = {'names' : keys, 'formats' : types}
