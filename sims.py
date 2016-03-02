@@ -84,3 +84,36 @@ def model_r2 (population, expr_binned) :
     x = expr_binned [mask]
     y = population [mask]
     return np.corrcoef (x,y)[0,1]**2
+
+def propagate_dirac_comb (startsites, P, nsteps=100) :
+    """
+    Propagates a solution of elements starting at sites described
+    by the array of indices startsites, using the probability
+    matrix P, with nsteps
+    """
+    nsites = P.shape [0]
+    # initialize matrix
+    X = np.zeros ((nsteps,nsites))
+    for site in startsites :
+        X[0,:] [site] += 1.
+    for i in range (1,nsteps) :
+        # get state at previous step
+        x = X[i-1,:]
+        # feed it to the evolution matrix
+        X[i,:] = np.dot (x,P)
+    return X
+
+def weigh_with_exponential (X, tau) :
+    """
+    Given a matrix of time steps describing the convergence to the
+    equilibrium distribution X, this function returns the average population
+    of the sites, supposing that there is an exponential process with
+    half-life tau
+    """
+    nsites = X.shape [1]
+    steps = np.arange (0,nsteps,1)
+    p = np.exp (-steps/tau)
+    predicted = np.zeros (nsites)
+    for i, x in enumerate (X) :
+        predicted += p[i] * x
+    return predicted
