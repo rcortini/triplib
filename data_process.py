@@ -11,7 +11,7 @@ def error_message (program_name, message) :
 
 def log_message (program_name, message) :
     full_message = "%s %s: INFO: %s"%(time_string (), program_name, message)
-    print (full_message, file=sys.stderr)
+    print (full_message)
 
 def ps (s,alpha) :
     """
