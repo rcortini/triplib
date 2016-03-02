@@ -103,7 +103,7 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
         X[i,:] = np.dot (x,P)
     return X
 
-def weigh_with_exponential (X, tau) :
+def weigh_with_exponential (X, tau, nsteps=100) :
     """
     Given a matrix of time steps describing the convergence to the
     equilibrium distribution X, this function returns the average population
