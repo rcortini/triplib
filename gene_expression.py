@@ -5,7 +5,8 @@ def site_idx (n, hic_res=2000) :
     return int (n/hic_res)
 
 def gene_expression_probability_matrix (nsites, genes, pfunc,
-                                        hic_res=2000, promoter_distance=500) :
+                                        hic_res=2000, promoter_distance=500,
+                                       n_exclude=0) :
     Pg = np.zeros ([nsites,nsites])
     for gene in genes :
         startsite = gene ['start']
@@ -22,7 +23,7 @@ def gene_expression_probability_matrix (nsites, genes, pfunc,
             Pg [startsite,endsite] = pfunc (gene)
         except IndexError :
             continue
-    return Pg
+    return Pg [n_exclude:,n_exclude:]
 
 # the firing function default: fire if gene present
 def always_fire (gene) :
