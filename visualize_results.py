@@ -4,7 +4,7 @@ import matplotlib.gridspec as gridspec
 from .sims import model_r2
 
 def visualize_model_results (population, expr_binned, reporters,
-                   n1=1000, n2=2000, hic_res=2000, n_exclude=0) :
+                   n1=1000, n2=2000, hic_res=2000, n_exclude=0, title=None) :
     fig = plt.figure (figsize=(20,10))
     gs = gridspec.GridSpec (3,2)
     ax = plt.subplot(gs[:,0])
@@ -46,5 +46,8 @@ def visualize_model_results (population, expr_binned, reporters,
     ax4.get_yaxis().tick_left()
     ax4.get_xaxis().tick_bottom()
     ax4.set_ylabel ("Reporter expression (log)", fontsize=16)
+    # set title
+    if title :
+        fig.suptitle (title,fontsize=32)
     plt.show ()
     return fig
