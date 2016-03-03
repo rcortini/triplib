@@ -13,6 +13,10 @@ def log_message (program_name, message) :
     full_message = "%s %s: INFO: %s"%(time_string (), program_name, message)
     print (full_message)
 
+def warn_message (program_name, message) :
+    full_message = "%s %s: WARNING: %s"%(time_string (), program_name, message)
+    print (full_message)
+
 def ps (s,alpha) :
     """
     theoretical p(s) with exponent alpha given
