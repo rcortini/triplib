@@ -117,3 +117,10 @@ def weigh_with_exponential (X, tau, nsteps=100) :
     for i, x in enumerate (X) :
         predicted += p[i] * x
     return predicted
+
+def propagate_dirac_comb_k (k, startsites, P, nsteps=100) :
+    """
+    A parallel-ready version of propagate_dirac_comb
+    """
+    sites = np.append (startsites, k)
+    return propagate_dirac_comb (sites, P, nsteps=nsteps)
