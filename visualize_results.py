@@ -29,6 +29,7 @@ def visualize_model_results (population, expr_binned, reporters,
     ax3 = plt.subplot (gs[1,1])
     ax3.bar (x, np.log2(population[n1:n2]))
     ax3.get_yaxis().tick_left()
+    ax3.set_ylabel ("Average visits (log)", fontsize=16)
     ax3.get_xaxis().tick_bottom()
     ax3.spines['top'].set_visible(False)
     ax3.spines['right'].set_visible(False)
@@ -44,4 +45,6 @@ def visualize_model_results (population, expr_binned, reporters,
     ax4.spines['right'].set_visible(False)
     ax4.get_yaxis().tick_left()
     ax4.get_xaxis().tick_bottom()
+    ax4.set_ylabel ("Reporter expression (log)", fontsize=16)
     plt.show ()
+    return fig
