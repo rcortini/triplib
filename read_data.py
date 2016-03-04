@@ -49,7 +49,7 @@ def load_reporters () :
 
 # get hic-binned average reporter expression
 def load_expr_binned (reporters, nsites,
-                      responsive = ['p8','p38','p39','p40'],
+                      responsive = ['pI','pII','pIII','pIV'],
                       hic_res=2000,
                       substitute_nans=False) :
     expr_binned = np.zeros (nsites)
