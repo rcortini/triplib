@@ -39,3 +39,10 @@ def fire_if_active (gene,args) :
         return 1.
     else :
         return 0.
+
+# fire proportionally to gene expression level
+def linear_fire (gene,args) :
+    expr = gene ['expr']
+    min_expression = args [0]
+    max_expression = args [1]
+    return (expr-min_expression)/(max_expression-min_expression)
