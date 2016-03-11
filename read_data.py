@@ -6,6 +6,7 @@ datadir = os.getenv ("HOME") + "/work/data/"
 hic_file_normalized = datadir + "chr2L_normalized.mtx"
 hic_file_filled = datadir + "chr2L_filled.mtx"
 gene_file = datadir + "Kc_exp_color.bed"
+activegene_file = datadir + "active_genes_r5.57.txt"
 colors_file = datadir + "colors.bed"
 reporter_file = datadir + "allprom.txt"
 
@@ -26,6 +27,13 @@ def load_genes () :
     gene_dtype = {'names' : ['chr','start','end','strand','expr','color','gene','state9'],
                              'formats' : ['S10','i8','i8','S2','f','S10','S10','i4']}
     return np.genfromtxt (gene_file, dtype=np.dtype (gene_dtype), skip_header=1)
+
+# load _active_ genes
+def load_active_genes () :
+    activegene_dtype = {'names' : ['chr','start','end','strand'],
+                        'formats' : ['S10','i8','i8','S2']}
+    return np.genfromtxt (activegene_file, dtype=np.dtype (activegene_dtype),
+                          skip_header=1,usecols=(0,1,2,4))
 
 # load the colors data
 def load_colors () :
