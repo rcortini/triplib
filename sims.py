@@ -94,8 +94,7 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
     nsites = P.shape [0]
     # initialize matrix
     X = np.zeros ((nsteps,nsites))
-    for site in startsites :
-        X[0,:] [site] += 1.
+    X[0,:] = startsites
     for i in range (1,nsteps) :
         # get state at previous step
         x = X[i-1,:]
