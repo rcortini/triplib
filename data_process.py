@@ -48,8 +48,8 @@ def fill_p_with_ps (P,i,alpha) :
         P[k,i] = ps(s,alpha)
 
 def row_normalize_matrix (M) :
-    n = np.sum (M,axis=0)
-    return (M/n).T
+    n = np.sum (M,axis=1)
+    return (M.T/n).T
 
 def P_hop_plus_gene (P_hop, P_gene, p_firing) :
     N = P_hop.shape[0]
