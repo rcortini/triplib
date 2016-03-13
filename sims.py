@@ -89,7 +89,7 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
         # get state at previous step
         x = X[i-1,:]
         # feed it to the evolution matrix
-        X[i,:] = np.dot (x,P)
+        X[i,:] = np.dot (P,x)
     return X
 
 def weigh_with_exponential (X, tau, nsteps=100) :
