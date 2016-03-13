@@ -49,7 +49,12 @@ def fill_p_with_ps (P,i,alpha) :
 
 def row_normalize_matrix (M) :
     n = np.sum (M,axis=1)
-    return (M.T/n).T
+    N = M.shape [0]
+    Mnorm = M.copy ()
+    for i in range (N) :
+        if n[i]!=0. :
+            Mnorm[i] /= n[i]
+    return Mnorm
 
 def P_hop_plus_gene (P_hop, P_gene, p_firing) :
     N = P_hop.shape[0]
