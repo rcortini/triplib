@@ -17,14 +17,15 @@ def gene_expression_probability_matrix (nsites, genes, Pfunc,
         endsite = gene ['end']
         strand = gene ['strand']
         if strand == '+' :
-            startsite -= promoter_distance
+            i = startsite - promoter_distance
+            j = endsite
         else :
-            endsite = startsite
-            startsite = endsite + promoter_distance
-        startsite = site_idx (startsite, hic_res)
-        endsite = site_idx (endsite, hic_res)
+            i = endsite + promoter_distance
+            j = startsite
+        i = site_idx (i, hic_res)
+        j = site_idx (j, hic_res)
         try :
-            Pg [startsite,endsite] = pfunc (gene,pfunc_args)
+            Pg [i,j] += pfunc (gene,pfunc_args)
         except IndexError :
             warn_message ("gene_exp", "Index error with %d/%d" % (startsite,endsite))
             continue
