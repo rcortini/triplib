@@ -17,6 +17,16 @@ def warn_message (program_name, message) :
     full_message = "%s %s: WARNING: %s"%(time_string (), program_name, message)
     print (full_message)
 
+def model_r2 (population, expr_binned, bias=0.01) :
+    """
+    Returns the R2 of the population, compared with the binned reporter
+    expression
+    """
+    mask = [~np.isnan (expr_binned)]
+    x = expr_binned [mask]
+    y = np.log2 (bias + population [mask])
+    return np.corrcoef (x,y)[0,1]**2
+
 def ps (s,alpha) :
     """
     theoretical p(s) with exponent alpha given

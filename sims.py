@@ -75,16 +75,6 @@ def get_life_and_death (P, P_gene, tau, where='prom', ntrials=10, hic_res=2000) 
     mean = np.mean (visits)
     return visits/mean
 
-def model_r2 (population, expr_binned) :
-    """
-    Returns the R2 of the population, compared with the binned reporter
-    expression
-    """
-    mask = [~np.isnan (expr_binned)]
-    x = expr_binned [mask]
-    y = population [mask]
-    return np.corrcoef (x,y)[0,1]**2
-
 def propagate_dirac_comb (startsites, P, nsteps=100) :
     """
     Propagates a solution of elements starting at sites described
