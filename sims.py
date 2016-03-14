@@ -92,13 +92,14 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
         X[i,:] = np.dot (P,x)
     return X
 
-def weigh_with_exponential (X, tau, nsteps=100) :
+def weigh_with_exponential (X, tau) :
     """
     Given a matrix of time steps describing the convergence to the
     equilibrium distribution X, this function returns the average population
     of the sites, supposing that there is an exponential process with
     half-life tau
     """
+    nsteps = X.shape [0]
     nsites = X.shape [1]
     steps = np.arange (0,nsteps,1)
     p = np.exp (-steps/tau)
