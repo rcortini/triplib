@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-from .sims import model_r2
+from .data_process import model_r2
 
 def visualize_model_results (population, expr_binned, reporters,
                    n1=1000, n2=2000, hic_res=2000, n_exclude=0, title=None) :
