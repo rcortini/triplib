@@ -71,6 +71,7 @@ def load_expr_binned (reporters, nsites,
                 expr_binned [i] += r['nexp']
                 n_reporters [i] += 1.
             except IndexError :
+                warn_message ("load_expr_binned", "Index %d out of range"%i)
                 continue
     # calculate the average per bin
     with np.errstate (invalid='ignore') :
