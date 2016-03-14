@@ -17,12 +17,16 @@ def warn_message (program_name, message) :
     full_message = "%s %s: WARNING: %s"%(time_string (), program_name, message)
     print (full_message)
 
-def model_r2 (population, expr_binned, bias=0.01) :
+def model_r2 (population, expr_binned, bias=0.01, zerorows=None) :
     """
     Returns the R2 of the population, compared with the binned reporter
     expression
     """
-    mask = [~np.isnan (expr_binned)]
+    notnan = np.isnan (expr_binned)
+    if zerorows is not None :
+        mask = np.logical_and (~notnan, ~zerorows)
+    else :
+        mask = ~notnan
     x = expr_binned [mask]
     y = np.log2 (bias + population [mask])
     return np.corrcoef (x,y)[0,1]**2
@@ -66,3 +70,31 @@ def P_hop_plus_gene (P_hop, P_gene, p_firing) :
         else :
             P [i,:] = P_hop [i,:]
     return P
+
+def get_promoters_and_terminators (genes, N, hic_res=2000) :
+    """
+    Given the gene array "genes", extract positions of promoters
+    and terminators, and both, into an array of N bins.
+    """
+    promoters = np.zeros (N)
+    terminators = np.zeros (N)
+    both = np.zeros (N)
+    for gene in genes :
+        startsite = gene ['start']
+        endsite = gene ['end']
+        strand = gene ['strand']
+        # IMPORTANT NOTE: here we suppose that we are using Python 2! The division
+        # between integers in Python 3 yields a float.
+        if strand == '+' :
+            i = startsite/hic_res
+            j = endsite/hic_res
+        elif strand == '-' :
+            i = endsite/hic_res
+            j = startsite/hic_res
+        else :
+            raise ValueError
+        promoters [i] += 1
+        terminators [j] += 1
+        both [i] += 1
+        both [j] += 1
+    return promoters, terminators, both

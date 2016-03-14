@@ -4,7 +4,8 @@ import matplotlib.gridspec as gridspec
 from .data_process import model_r2
 
 def visualize_model_results (population, expr_binned, reporters,
-                   n1=1000, n2=2000, hic_res=2000, n_exclude=0, title=None) :
+                   n1=1000, n2=2000, hic_res=2000, n_exclude=0,
+                   zerorows=None, title=None) :
     fig = plt.figure (figsize=(20,10))
     gs = gridspec.GridSpec (3,2)
     ax = plt.subplot(gs[:,0])
@@ -13,7 +14,7 @@ def visualize_model_results (population, expr_binned, reporters,
     ax.axvline (0,-2.5,2.0,linestyle='--',color='r',linewidth=3)
     ax.set_xlabel ("Reporter expression (log)", fontsize=24)
     ax.set_ylabel ("Average visits (log)", fontsize=24)
-    r2 = model_r2 (population, expr_binned [n_exclude:])
+    r2 = model_r2 (population, expr_binned [n_exclude:],zerorows=zerorows)
     xmin, xmax = ax.get_xaxis().get_view_interval()
     ymin, ymax = ax.get_yaxis().get_view_interval()
     deltax = xmax-xmin
