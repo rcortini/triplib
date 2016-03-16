@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse.linalg import eigs
+from scipy.optimize      import minimize
 
 def jump_to (p):
     """
@@ -114,3 +115,47 @@ def propagate_dirac_comb_k (k, startsites, P, nsteps=100) :
     """
     sites = np.append (startsites, k)
     return propagate_dirac_comb (sites, P, nsteps=nsteps)
+
+def obj_diffusion (x,A,expr,mask) :
+    """
+    Objective function to minimize when optimizing the start vector for a
+    diffusion on a Hi-C matrix. Return the gradient along with the function for
+    an efficient calculation of both.
+    """
+    xA = np.dot (x,A)
+    mxA = np.mean (xA)
+    h = np.log2 (xA/mxA)
+    h_minus_expr = h-expr 
+    F = np.sum ((h_minus_expr**2)[mask])
+    mAl = np.mean (A,axis=1)
+    dh = ((A/xA).T - mAl/mxA).T
+    df = np.sum ((h_minus_expr*dh)[:,mask],axis=1)
+    # 2/ln(2) = 2.8853900817779268
+    return F, 2.8853900817779268*df
+
+# the constraints
+cons = ({'type': 'eq',
+                 'fun' : lambda x: np.sum (x)-1,
+                 'jac' : lambda x: np.ones (len (x))},
+        {'type': 'ineq',
+                 'fun' : lambda x: 1-x,
+                 'jac' : lambda x: np.identity (len(x))},
+        {'type': 'ineq',
+                 'fun' : lambda x: x,
+                 'jac' : lambda x: np.identity (len(x))})
+
+def optimize_start_diffusion (xstart,A,expr,mask) :
+    """
+    Optimize the start vector of the diffusion of factors in a Hi-C matrix. The
+    matrix A must be precomputed to be the exp-weighed powers of P, which was
+    previously row-normalized. Provide the full expr_binned vector along with a
+    pre-calculated mask describing the valid values of the expr_binned vector
+    """
+    res = minimize (obj_diffusion,
+                    xstart,
+                    args=(A,expr,mask),
+                    jac=True,
+                    constraints=cons,
+                    method='SLSQP',
+                    options={'disp': True,'maxiter' : 1000})
+    return res.x
