@@ -159,3 +159,31 @@ def optimize_start_diffusion (xstart,A,expr,mask) :
                     method='SLSQP',
                     options={'disp': True,'maxiter' : 1000})
     return res.x
+
+# the function to minimize
+def obj_contacts (x,A,expr,mask) :
+    """
+    Objective function to minimize when optimizing the start vector for a
+    contact vector with Hi-C matrix.
+    """
+    xA = np.dot (A,x)
+    mxA = np.mean (xA)
+    h = np.log2 (xA/mxA)
+    h_minus_expr = h-expr 
+    F = np.sum ((h_minus_expr**2)[mask])
+    return F
+
+def optimize_start_contacts (xstart,P,expr,mask) :
+    """
+    Optimize the start vector of the contacts of sites in a Hi-C matrix. P was
+    previously row-normalized. Provide the full expr_binned vector along with a
+    pre-calculated mask describing the valid values of the expr_binned vector
+    """
+    res = minimize (obj_contacts,
+                    xstart,
+                    args=(P,expr,mask),
+                    jac=False,
+                    constraints=cons,
+                    method='SLSQP',
+                    options={'disp': True,'maxiter' : 1000})
+    return res.x
