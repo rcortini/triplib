@@ -158,7 +158,7 @@ def optimize_start_diffusion (xstart,A,expr,mask) :
                     constraints=cons,
                     method='SLSQP',
                     options={'disp': True,'maxiter' : 1000})
-    return res.x
+    return res
 
 # the function to minimize
 def obj_contacts (x,A,expr,mask) :
@@ -186,4 +186,36 @@ def optimize_start_contacts (xstart,P,expr,mask) :
                     constraints=cons,
                     method='SLSQP',
                     options={'disp': True,'maxiter' : 1000})
+    return res
+
+def get_xstart (N,xstart_file=None) :
+    """
+    Generate a random start vector for the optimization, and if requested save
+    it to a file
+    """
+    xstart = np.random.random (N)
+    xstart /= np.sum (xstart)
+    if xstart_file is not None :
+        np.savetxt (xstart_file,xstart)
+    return xstart
+
+def optimize_model (what,matrix,expr,mask,target_fval=None,xstart_file=None) :
+    """
+    This function allows to get to the correct optimizing procedure, and iterate
+    until the target f value is lower than the supplied one
+    """
+    # what shall we optimize?
+    if what == 'contacts' :
+        target_f = optimize_start_contacts
+    elif what == 'diffusion' :
+        target_f = optimize_start_diffusion
+    # start vector
+    N = matrix.shape[0]
+    xstart = get_xstart (N,xstart_file)
+    # optimize the first time
+    res = target_f (xstart,matrix,expr,mask)
+    if target_fval is not None :
+        while (res.fun > target_fval) :
+            xstart = get_xstart (N,xstart_file)
+            res = target_f (xstart,matrix,expr,mask)
     return res.x
