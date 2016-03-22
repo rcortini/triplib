@@ -157,7 +157,7 @@ def optimize_start_diffusion (xstart,A,expr,mask) :
                     jac=True,
                     constraints=cons,
                     method='SLSQP',
-                    options={'disp': True,'maxiter' : 1000})
+                    options={'disp': True,'maxiter' : 100})
     return res
 
 # the function to minimize
@@ -185,7 +185,7 @@ def optimize_start_contacts (xstart,P,expr,mask) :
                     jac=False,
                     constraints=cons,
                     method='SLSQP',
-                    options={'disp': True,'maxiter' : 1000})
+                    options={'disp': True,'maxiter' : 100})
     return res
 
 def get_xstart (N,xstart_file=None) :
