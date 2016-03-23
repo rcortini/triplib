@@ -76,7 +76,7 @@ def get_life_and_death (P, P_gene, tau, where='prom', ntrials=10, hic_res=2000) 
     mean = np.mean (visits)
     return visits/mean
 
-def propagate_dirac_comb (startsites, P, nsteps=100) :
+def propagate_dirac_comb (startsites, P, nsteps=100, with_identity=False) :
     """
     Propagates a solution of elements starting at sites described
     by the array of indices startsites, using the probability
@@ -85,7 +85,10 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
     nsites = P.shape [0]
     # initialize matrix
     X = np.zeros ((nsteps,nsites))
-    X[0,:] = startsites
+    if with_identity :
+        X[0,:] = startsites
+    else :
+        X[0,:] = np.dot (startsites,P)
     for i in range (1,nsteps) :
         # get state at previous step
         x = X[i-1,:]
@@ -93,7 +96,7 @@ def propagate_dirac_comb (startsites, P, nsteps=100) :
         X[i,:] = np.dot (x,P)
     return X
 
-def weigh_with_exponential (X, tau) :
+def weigh_with_exponential (X, tau, with_identity=False) :
     """
     Given a matrix of time steps describing the convergence to the
     equilibrium distribution X, this function returns the average population
@@ -102,7 +105,10 @@ def weigh_with_exponential (X, tau) :
     """
     nsteps = X.shape [0]
     nsites = X.shape [1]
-    steps = np.arange (0,nsteps,1)
+    if with_identity :
+        steps = np.arange (0,nsteps,1)
+    else :
+        steps = np.arange (1,nsteps+1,1)
     p = np.exp (-steps/tau)
     predicted = np.zeros (nsites)
     for i, x in enumerate (X) :
