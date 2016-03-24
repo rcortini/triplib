@@ -15,9 +15,9 @@ P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
 # load hi-c data
 def load_hic (chromosome, normalized=True) :
     if normalized :
-        return np.loadtxt ("%s/%s_norm.mat.gz")
+        return np.loadtxt ("%s/%s_norm.mat.gz"%(hic_datadir,chromosome))
     else :
-        return np.loadtxt ("%s/%s.mat.gz")
+        return np.loadtxt ("%s/%s.mat.gz"%(hic_datadir,chromosome))
 
 
 # load the gene data
