@@ -9,6 +9,7 @@ gene_file = hic_datadir + "Kc_exp_color.bed"
 activegene_file = hic_datadir + "active_genes_r5.57.txt"
 colors_file = hic_datadir + "colors.bed"
 reporter_file = hic_datadir + "allprom.txt"
+P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
 
 # load hi-c data
 def load_hic (chromosome, normalized=True) :
@@ -75,3 +76,6 @@ def load_expr_binned (reporters, nsites,
     if substitute_nans :
         expr_binned [np.isnan (expr_binned)] = 0.
     return expr_binned
+
+def load_P_powers (chromosome) :
+    return np.load ("%s/%s.npy" % (P_powers_dir,chromosome))
