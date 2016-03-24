@@ -2,24 +2,20 @@ import numpy as np
 import os
 
 # module-wide variables
-datadir = os.getenv ("HOME") + "/work/data/"
-hic_file_normalized = datadir + "chr2L_normalized.mtx"
-hic_file_filled = datadir + "chr2L_filled.mtx"
-gene_file = datadir + "Kc_exp_color.bed"
-activegene_file = datadir + "active_genes_r5.57.txt"
-colors_file = datadir + "colors.bed"
-reporter_file = datadir + "allprom.txt"
+hic_datadir = "/mnt/ant-login/gfilion/MATRICES"
+hic_file_normalized = hic_datadir + "chr2L_normalized.mtx"
+hic_file_filled = hic_datadir + "chr2L_filled.mtx"
+gene_file = hic_datadir + "Kc_exp_color.bed"
+activegene_file = hic_datadir + "active_genes_r5.57.txt"
+colors_file = hic_datadir + "colors.bed"
+reporter_file = hic_datadir + "allprom.txt"
 
 # load hi-c data
-def load_hic (chromosome, normalized=False, filled=True) :
-    hic_file = datadir + "chr" + chromosome
-    if filled :
-        return np.loadtxt (hic_file + "_filled.mtx")
+def load_hic (chromosome, normalized=True) :
+    if normalized :
+        return np.loadtxt ("%s/%s_norm.mat.gz")
     else :
-        if normalized :
-            return np.loadtxt (hic_file + "_normalized.mtx")
-        else :
-            return np.loadtxt (hic_file + ".mtx")
+        return np.loadtxt ("%s/%s.mat.gz")
 
 
 # load the gene data
