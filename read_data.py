@@ -79,3 +79,6 @@ def load_expr_binned (reporters, nsites,
 
 def load_P_powers (chromosome) :
     return np.load ("%s/%s.npy" % (P_powers_dir,chromosome))
+
+def load_A_tau (chromosome, tau) :
+    return np.load ("%s/%s-A-%.2f.npy" % (P_powers_dir,chromosome,tau))
