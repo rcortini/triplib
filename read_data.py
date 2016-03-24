@@ -2,13 +2,14 @@ import numpy as np
 import os
 
 # module-wide variables
+base_datadir = os.getenv ("HOME") + "/work/data/"
 hic_datadir = "/mnt/ant-login/gfilion/MATRICES"
 hic_file_normalized = hic_datadir + "chr2L_normalized.mtx"
 hic_file_filled = hic_datadir + "chr2L_filled.mtx"
-gene_file = hic_datadir + "Kc_exp_color.bed"
-activegene_file = hic_datadir + "active_genes_r5.57.txt"
-colors_file = hic_datadir + "colors.bed"
-reporter_file = hic_datadir + "allprom.txt"
+gene_file = base_datadir + "Kc_exp_color.bed"
+activegene_file = base_datadir + "active_genes_r5.57.txt"
+colors_file = base_datadir + "colors.bed"
+reporter_file = base_datadir + "allprom.txt"
 P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
 
 # load hi-c data
