@@ -11,6 +11,7 @@ activegene_file = base_datadir + "active_genes_r5.57.txt"
 colors_file = base_datadir + "colors.bed"
 reporter_file = base_datadir + "allprom.txt"
 P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
+chr_N_dir = os.getenv ("HOME") + "/work/data/tripsims/chr_N"
 
 # load hi-c data
 def load_hic (chromosome, normalized=True) :
@@ -83,3 +84,10 @@ def load_P_powers (chromosome) :
 
 def load_A_tau (chromosome, tau) :
     return np.load ("%s/%s-A-%.2f.npy" % (P_powers_dir,chromosome,tau))
+
+def chromosome_N (chromosome) :
+    """
+    Returns the number of bins in the chromosome specified
+    """
+    n = np.loadtxt ("%s/%s.dat" % (chr_N_dir,chromosome),dtype=np.int32)
+    return int (n)
