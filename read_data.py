@@ -12,6 +12,7 @@ colors_file = base_datadir + "colors.bed"
 reporter_file = base_datadir + "allprom.txt"
 P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
 chr_N_dir = os.getenv ("HOME") + "/work/data/tripsims/chr_N"
+zerolines_dir = os.getenv ("HOME") + "/work/data/tripsims/zerorows"
 
 # load hi-c data
 def load_hic (chromosome, normalized=True) :
@@ -91,3 +92,15 @@ def chromosome_N (chromosome) :
     """
     n = np.loadtxt ("%s/%s.dat" % (chr_N_dir,chromosome),dtype=np.int32)
     return int (n)
+
+def chromosome_zerorows (chromosome) :
+    """
+    Returns an array of boolean values telling whether the corresponding
+    row/column in the Hi-C matrix is considered null
+    """
+    zerolines = np.loadtxt ("%s/%s-zerorows.dat" % (zerolines_dir,chromosome),
+                            dtype=np.int32)
+    N = chromosome_N (chromosome)
+    z = np.zeros (N, dtype=bool)
+    z [zerolines] = True
+    return z
