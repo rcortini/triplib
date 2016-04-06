@@ -1,5 +1,6 @@
 import numpy as np
 from .read_data import *
+from .data_process import log_message
 
 class Chromosome :
     def __init__(self,name,full_init=False,colors=None,reporters=None,genes=None) :
@@ -27,3 +28,22 @@ class Chromosome :
         self.init_reporters (reporters)
         self.init_genes (genes)
         self.init_hic ()
+
+def load_all_chromosomes () :
+    names = ['2L','2R','3L','3R','X']
+    log_message ("load_all_chromosomes", "Loading reporters")
+    reporters = load_reporters ()
+    genes = load_genes ()
+    colors = load_colors ()
+    chromosomes = []
+    for name in names :
+        log_message ("load_all_chromosomes", "Loading chromosome %s"%name)
+        chromosomes.append (Chromosome (name,
+                                        full_init=True,
+                                        colors=colors,
+                                        reporters=reporters,
+                                        genes=genes))
+    del reporters
+    del genes
+    del colors
+    return chromosomes
