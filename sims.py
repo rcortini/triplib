@@ -150,7 +150,7 @@ cons = ({'type': 'eq',
                  'fun' : lambda x: x,
                  'jac' : lambda x: np.identity (len(x))})
 
-def optimize_start_diffusion (xstart,A,expr,mask) :
+def optimize_start_diffusion (xstart,A,expr,mask,disp=True) :
     """
     Optimize the start vector of the diffusion of factors in a Hi-C matrix. The
     matrix A must be precomputed to be the exp-weighed powers of P, which was
@@ -163,7 +163,7 @@ def optimize_start_diffusion (xstart,A,expr,mask) :
                     jac=True,
                     constraints=cons,
                     method='SLSQP',
-                    options={'disp': True,'maxiter' : 100})
+                    options={'disp': disp,'maxiter' : 100})
     return res
 
 # the function to minimize
@@ -179,7 +179,7 @@ def obj_contacts (x,A,expr,mask) :
     F = np.sum ((h_minus_expr**2)[mask])
     return F
 
-def optimize_start_contacts (xstart,P,expr,mask) :
+def optimize_start_contacts (xstart,P,expr,mask,disp=True) :
     """
     Optimize the start vector of the contacts of sites in a Hi-C matrix. P was
     previously row-normalized. Provide the full expr_binned vector along with a
@@ -191,7 +191,7 @@ def optimize_start_contacts (xstart,P,expr,mask) :
                     jac=False,
                     constraints=cons,
                     method='SLSQP',
-                    options={'disp': True,'maxiter' : 100})
+                    options={'disp': disp,'maxiter' : 100})
     return res
 
 def get_xstart (N,in_xstart_file=None,out_xstart_file=None) :
@@ -211,7 +211,8 @@ def get_xstart (N,in_xstart_file=None,out_xstart_file=None) :
 
 def optimize_model (what,matrix,expr,mask,target_fval=None,
                     in_xstart_file=None,
-                    out_xstart_file=None) :
+                    out_xstart_file=None,
+                    disp=True) :
     """
     This function allows to get to the correct optimizing procedure, and iterate
     until the target f value is lower than the supplied one
@@ -225,9 +226,9 @@ def optimize_model (what,matrix,expr,mask,target_fval=None,
     N = matrix.shape[0]
     xstart = get_xstart (N,in_xstart_file,out_xstart_file)
     # optimize the first time
-    res = target_f (xstart,matrix,expr,mask)
+    res = target_f (xstart,matrix,expr,mask,disp=disp)
     if target_fval is not None :
         while (res.fun > target_fval) :
             xstart = get_xstart (N,in_xstart_file=None,out_xstart_file=out_xstart_file)
-            res = target_f (xstart,matrix,expr,mask)
+            res = target_f (xstart,matrix,expr,mask,disp=disp)
     return res.x
