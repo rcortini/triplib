@@ -30,7 +30,7 @@ class Chromosome :
         self.init_genes (genes)
         self.init_hic ()
 
-def load_all_chromosomes () :
+def load_all_chromosomes (full_init=True) :
     names = ['2L','2R','3L','3R','X']
     log_message ("load_all_chromosomes", "Loading reporters")
     reporters = load_reporters ()
@@ -40,7 +40,7 @@ def load_all_chromosomes () :
     for name in names :
         log_message ("load_all_chromosomes", "Loading chromosome %s"%name)
         chromosomes.append (Chromosome (name,
-                                        full_init=True,
+                                        full_init=full_init,
                                         colors=colors,
                                         reporters=reporters,
                                         genes=genes))
