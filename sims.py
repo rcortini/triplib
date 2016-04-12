@@ -194,18 +194,24 @@ def optimize_start_contacts (xstart,P,expr,mask) :
                     options={'disp': True,'maxiter' : 100})
     return res
 
-def get_xstart (N,xstart_file=None) :
+def get_xstart (N,in_xstart_file=None,out_xstart_file=None) :
     """
-    Generate a random start vector for the optimization, and if requested save
+    Get the xstart vector. If in_xstart_file is given, load the file and return.
+    Otherwise, generate a random start vector for the optimization, and if requested save
     it to a file
     """
-    xstart = np.random.random (N)
-    xstart /= np.sum (xstart)
-    if xstart_file is not None :
-        np.savetxt (xstart_file,xstart)
-    return xstart
+    if in_xstart_file is not None :
+        return np.loadtxt (in_xstart_file)
+    else :
+        xstart = np.random.random (N)
+        xstart /= np.sum (xstart)
+        if out_xstart_file is not None :
+            np.savetxt (out_xstart_file,xstart)
+        return xstart
 
-def optimize_model (what,matrix,expr,mask,target_fval=None,xstart_file=None) :
+def optimize_model (what,matrix,expr,mask,target_fval=None,
+                    in_xstart_file=None,
+                    out_xstart_file=None) :
     """
     This function allows to get to the correct optimizing procedure, and iterate
     until the target f value is lower than the supplied one
@@ -217,11 +223,11 @@ def optimize_model (what,matrix,expr,mask,target_fval=None,xstart_file=None) :
         target_f = optimize_start_diffusion
     # start vector
     N = matrix.shape[0]
-    xstart = get_xstart (N,xstart_file)
+    xstart = get_xstart (N,in_xstart_file,out_xstart_file)
     # optimize the first time
     res = target_f (xstart,matrix,expr,mask)
     if target_fval is not None :
         while (res.fun > target_fval) :
-            xstart = get_xstart (N,xstart_file)
+            xstart = get_xstart (N,in_xstart_file=None,out_xstart_file=out_xstart_file)
             res = target_f (xstart,matrix,expr,mask)
     return res.x
