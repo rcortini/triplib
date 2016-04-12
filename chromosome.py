@@ -19,6 +19,7 @@ class Chromosome :
         self.colors = np.array ([c for c in colors if c['chr']==self.name])
     def init_reporters (self,reporters) :
         self.reporters = np.array ([r for r in reporters if r['chr']==self.name])
+        self.expr_binned = load_expr_binned (self.reporters,self.N)
     def init_genes (self,genes) :
         self.genes = np.array ([g for g in genes if g['chr']==self.name])
     def init_hic (self) :
