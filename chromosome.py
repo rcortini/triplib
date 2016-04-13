@@ -3,7 +3,7 @@ from .read_data import *
 from .data_process import log_message
 
 class Chromosome :
-    def __init__(self,name,full_init=False,colors=None,reporters=None,genes=None) :
+    def __init__(self,name,full_init=True,colors=None,reporters=None,genes=None) :
         self.name = name
         self.colors = None
         self.reporters = None
@@ -13,8 +13,7 @@ class Chromosome :
         self.N = chromosome_N (name)
         self.zerorows = chromosome_zerorows (name)
         # if user wishes, we init all
-        if full_init :
-            self.init_all (colors,reporters,genes)
+        self.init_all (colors,reporters,genes,full_init=full_init)
     def init_colors (self,colors) :
         self.colors = np.array ([c for c in colors if c['chr']==self.name])
     def init_reporters (self,reporters) :
@@ -24,11 +23,12 @@ class Chromosome :
         self.genes = np.array ([g for g in genes if g['chr']==self.name])
     def init_hic (self) :
         self.H = load_hic (self.name)
-    def init_all (self,colors,reporters,genes) :
+    def init_all (self,colors,reporters,genes,full_init=False) :
         self.init_colors (colors)
         self.init_reporters (reporters)
         self.init_genes (genes)
-        self.init_hic ()
+        if full_init :
+            self.init_hic ()
 
 def load_all_chromosomes (full_init=True) :
     names = ['2L','2R','3L','3R','X']
