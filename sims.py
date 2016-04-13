@@ -27,7 +27,8 @@ def do_the_search (i0, nsteps, P) :
 def get_equilibrium_distribution (P,
                                   from_eigs=False,
                                   nsteps=100000,
-                                  ntrials=10) :
+                                  ntrials=10,
+                                  divide_by_sum=True) :
     """
     Calculate equilibrium distribution of a random walk on the row-normalized
     graph described by the matrix P. Return the vector that corresponds to the
@@ -48,8 +49,10 @@ def get_equilibrium_distribution (P,
         # get the population from average visits
         population = np.mean (visits, axis=0)
     # final result
-    mean = np.mean (population)
-    return population/mean
+    if divide_by_sum :
+        return population/np.sum(population)
+    else :
+        return population
 
 def get_life_and_death (P, P_gene, tau, where='prom', ntrials=10, hic_res=2000) :
     """
