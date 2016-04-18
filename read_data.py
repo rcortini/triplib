@@ -1,5 +1,5 @@
 import numpy as np
-import os
+import os, gzip
 
 # module-wide variables
 base_datadir = os.getenv ("HOME") + "/work/data/"
@@ -13,6 +13,7 @@ reporter_file = base_datadir + "allprom.txt"
 P_powers_dir = os.getenv ("HOME") + "/work/data/tripsims/P_powers"
 chr_N_dir = os.getenv ("HOME") + "/work/data/tripsims/chr_N"
 zerolines_dir = os.getenv ("HOME") + "/work/data/tripsims/zerorows"
+DAMid_file = base_datadir + "drosophila_DAMid.txt.gz"
 
 # load hi-c data
 def load_hic (chromosome, normalized=True) :
@@ -104,3 +105,15 @@ def chromosome_zerorows (chromosome) :
     z = np.zeros (N, dtype=bool)
     z [zerolines] = True
     return z
+
+def load_DAMid () :
+    with gzip.open (DAMid_file,'r') as f :
+        line = f.readline ()
+    header = line.strip('\n').split('\t')
+    keys = ['fragmentID','chr','start','end']
+    types = ['S30','S8','i8','i8']
+    for i in range ((len(types)),len(header)) :
+        types.append ('f')
+        keys.append (header[i])
+    DAMid_dtype = {'names' : keys, 'formats' : types}
+    return np.genfromtxt (DAMid_file, dtype=np.dtype(DAMid_dtype),skip_header=1)
