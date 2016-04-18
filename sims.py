@@ -26,22 +26,28 @@ def do_the_search (i0, nsteps, P) :
 
 def get_equilibrium_distribution (P,
                                   from_eigs=False,
+                                  from_iter=False,
                                   nsteps=100000,
                                   ntrials=10,
+                                  niter=100,
                                   divide_by_sum=True) :
     """
     Calculate equilibrium distribution of a random walk on the row-normalized
     graph described by the matrix P. Return the vector that corresponds to the
     found solution
     """
+    nsites = P.shape[0]
     if from_eigs :
         hw, hv = eigs (P.T,k=1,which='LM')
         # select the index of the largest eigenvalue
         imax = hw.argmax ()
         # select the eigenvector corresponding to the largest eigenvalue
         population = hv [:,imax].real
+    elif from_iter :
+        population = 1./nsites * np.ones (nsites)
+        for i in range (niter) :
+            population = np.dot (population,P)
     else :
-        nsites = P.shape[0]
         i0 = np.random.randint (0,nsites,ntrials)
         Pn = np.cumsum (P,axis=1)
         visits = np.array ([do_the_search (i, nsteps, Pn)\
