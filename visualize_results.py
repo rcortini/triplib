@@ -52,3 +52,12 @@ def visualize_model_results (population, expr_binned, reporters,
         fig.suptitle (title,fontsize=32)
     plt.show ()
     return fig
+
+def plot_hic_matrix (H,ax,N1,N2,hic_res=2000) :
+    n1 = N1/hic_res
+    n2 = N2/hic_res
+    ax.matshow (1-np.log2(H[n1:n2,n1:n2]),
+             cmap=plt.cm.gray,
+             origin='lower',
+             extent=[N1,N2,N1,N2],
+             interpolation='none')
