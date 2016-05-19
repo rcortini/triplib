@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 from .data_process import model_r2
 
 def visualize_model_results (population, expr_binned, reporters,
