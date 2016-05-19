@@ -116,4 +116,7 @@ def load_DAMid () :
         types.append ('f')
         keys.append (header[i])
     DAMid_dtype = {'names' : keys, 'formats' : types}
-    return np.genfromtxt (DAMid_file, dtype=np.dtype(DAMid_dtype),skip_header=1)
+    DAMid = np.genfromtxt (DAMid_file, dtype=np.dtype(DAMid_dtype),skip_header=1)
+    for d in DAMid :
+        d['chr'] = d['chr'].strip('chr')
+    return DAMid
