@@ -221,7 +221,8 @@ def get_xstart (N,in_xstart_file=None,out_xstart_file=None) :
 def optimize_model (what,matrix,expr,mask,target_fval=None,
                     in_xstart_file=None,
                     out_xstart_file=None,
-                    disp=True) :
+                    disp=True,
+                    maxiter=5) :
     """
     This function allows to get to the correct optimizing procedure, and iterate
     until the target f value is lower than the supplied one
@@ -237,7 +238,9 @@ def optimize_model (what,matrix,expr,mask,target_fval=None,
     # optimize the first time
     res = target_f (xstart,matrix,expr,mask,disp=disp)
     if target_fval is not None :
-        while (res.fun > target_fval) :
+        niter = 0
+        while (res.fun > target_fval and niter < maxiter) :
             xstart = get_xstart (N,in_xstart_file=None,out_xstart_file=out_xstart_file)
             res = target_f (xstart,matrix,expr,mask,disp=disp)
+            niter += 1
     return res.x
