@@ -120,3 +120,25 @@ def load_DAMid () :
     for d in DAMid :
         d['chr'] = d['chr'].strip('chr')
     return DAMid
+
+def load_optimize_results (simdir,what,Tau=[1.0,2.0,5.0,10.0,20.0]) :
+    """
+    Loads the results of an optimization run, taking into account directory
+    specification and 'what' specification.
+    """
+    if not os.path.exists (simdir) :
+        raise ValueError
+    final_x = []
+    final_signal = []
+    for Tau in Tauvals :
+        x = np.empty(0)
+        signal = np.empty(0)
+        for chromosome in chromosomes :
+            f = '%s/analysed/%s-%.1f-%s-x.dat'%(random_datadir,chromosome.name,Tau,what)
+            x = np.concatenate((x,np.loadtxt (f)))
+            f = '%s/analysed/%s-%.1f-%s-best.dat'%(random_datadir,chromosome.name,Tau,what)
+            signal = np.concatenate((signal,np.loadtxt (f)))
+        final_x.append (x)
+        final_signal.append (x)
+    final_x = np.array (final_x) 
+    final_signal = np.array (final_signal) 
