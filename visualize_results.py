@@ -54,13 +54,13 @@ def visualize_model_results (population, expr_binned, reporters,
     plt.show ()
     return fig
 
-def plot_hic_matrix (H,ax,N1,N2,hic_res=2000) :
+def plot_hic_matrix (H,ax,N1,N2,hic_res=2000,offset=0) :
     n1 = N1/hic_res
     n2 = N2/hic_res
     ax.matshow (1-np.log2(H[n1:n2,n1:n2]),
              cmap=plt.cm.gray,
              origin='lower',
-             extent=[N1,N2,N1,N2],
+             extent=[N1+offset,N2+offset,N1+offset,N2+offset],
              interpolation='none')
 
 def line_plot (ax,xvals,yvals,N1=None,N2=None,show_xaxis=False) :

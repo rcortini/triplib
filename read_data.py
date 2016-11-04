@@ -1,5 +1,6 @@
 import numpy as np
 import os, gzip
+from .data_process import warn_message
 
 # module-wide variables
 base_datadir = os.getenv ("HOME") + "/work/data/"
